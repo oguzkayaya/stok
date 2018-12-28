@@ -17,6 +17,7 @@ class CreateIncomeProductsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('price');
+            $table->integer('amount');
             $table->integer('tax');
             $table->integer('income_id')->unsigned();
             $table->integer('product_id')->unsigned();

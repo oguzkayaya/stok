@@ -27,20 +27,56 @@
                         <table width="100%" class="table table-striped table-bordered table-hover ">
                             <thead>
                                 <tr role="row">
-                                    <th style="width: 91px;">Rendering engine</th>
-                                    <th style="width: 114px;">Browser</th>
-                                    <th style="width: 104px;">Platform(s)</th>
-                                    <th style="width: 78px;">Engine version</th>
-                                    <th style="width: 55px;">CSS grade</th>
+                                    <th>Title</th>
+                                    <th>Sell Price</th>
+                                    <th>Buy Price</th>
+                                    <th>Tax</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
+                                <form action="/products/{{ $product->id }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
                                     <tr>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ $product-></td>
+                                        <td>{{ $product->title }}</td>
+                                        <td>{{ $product->sell_price }}</td>
+                                        <td>{{ $product->buy_price }}</td>
+                                        <td>
+                                            <div class="col-md-7">
+                                                {{ $product->tax }}
+                                            </div>
+                                            <div class="col-md-5">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </div>
+                                        </td>
                                     </tr>
+                                </form>
                                 @endforeach
+                                <form action="/products" method="post">
+                                    @csrf
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="title" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="sell" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="buy" class="form-control">
+                                        </td>
+                                        <td>
+                                            <div class="col-md-7">
+                                                <select name="tax" class="form-control">
+                                                    <option value="18">%18</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <button type="submit" class="btn btn-success">Add</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </form>
                             </tbody>
                         </table>
                     </div>

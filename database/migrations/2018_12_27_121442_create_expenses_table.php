@@ -16,7 +16,7 @@ class CreateExpensesTable extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->boolean('status');
             $table->integer('payment_delay');
             $table->integer('supplier_id')->unsigned();

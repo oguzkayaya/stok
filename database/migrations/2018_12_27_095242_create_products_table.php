@@ -17,11 +17,11 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('title');
-            $table->string('barcode');
-            $table->string('image');
-            $table->integer('sell_price');
-            $table->integer('buy_price');
-            $table->integer('tax');
+            $table->string('barcode')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('sell_price')->nullable();
+            $table->integer('buy_price')->nullable();
+            $table->integer('tax')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
         });

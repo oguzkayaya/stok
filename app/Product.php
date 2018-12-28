@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $guarded = [];
+
     //
     public function income_product()
     {
@@ -21,4 +23,5 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

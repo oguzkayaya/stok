@@ -35,7 +35,7 @@ class LoginController extends Controller
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'password' => Hash::make(request('passwd')),
+            'password' => Hash::make(request('password')),
             'telephone' => request('telephone'),
             'company_id' => request('company')
         ]);
@@ -59,7 +59,7 @@ class LoginController extends Controller
     public function login()
     {
         $credentials = request()->only('email', 'password');
-
+        
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             return redirect('/');

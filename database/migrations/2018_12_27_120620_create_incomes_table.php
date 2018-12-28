@@ -16,7 +16,7 @@ class CreateIncomesTable extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->boolean('status');
             $table->integer('payment_delay');
             $table->integer('customer_id')->unsigned();

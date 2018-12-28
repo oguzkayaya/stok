@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('telephone');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
         });

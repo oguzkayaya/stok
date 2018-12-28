@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('home')->middleware('auth');
 
 
 
@@ -29,4 +29,6 @@ Route::post('/login', 'LoginController@login');
 Route::get('/companies/create', 'CompanyController@create');
 Route::post('/companies', 'CompanyController@store');
 
-Route::get('products', 'ProductController@index');
+Route::get('/products', 'ProductController@index');
+Route::post('/products', 'ProductController@store');
+Route::delete('/products/{product}', 'ProductController@delete');
