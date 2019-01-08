@@ -23,7 +23,7 @@
                         
     
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                         <table width="100%" class="table table-striped table-bordered table-hover ">
                             <thead>
                                 <tr role="row">
@@ -79,6 +79,9 @@
                                 </form>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-md-12">
+                        @include('partials.errors')
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +24,16 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function InCompanyAll()
+    {
+        return DB::select(
+            'select * from products where user_id in (
+                select id from users where company_id = (
+                    select company_id from users where id = ?)) order by id;',
+            [auth()->user()->id]
+        );
+    }
+
 
 }

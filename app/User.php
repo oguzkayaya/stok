@@ -68,4 +68,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(IncomeProduct::class);
     }
+
+    public function isSupplierMine(Supplier $supplier)
+    {
+        $supplierCompany = $supplier->user->company;
+        if($this->company == $supplierCompany)
+        return 1;
+        return 0;
+    }
+
+    public function isProductMine(Product $product)
+    {
+        $productCompany = $product->user->company;
+        if($this->company == $productCompany)
+        return 1;
+        return 0;
+    }
+
+    public function isExpenseMine(Expense $expense)
+    {
+        $expenseCompany = $expense->user->company;
+        if($this->company == $expenseCompany)
+        return 1;
+        return 0;
+    }
 }

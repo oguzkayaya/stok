@@ -16,13 +16,15 @@ class CreateExpensesTable extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->dateTime('expense_date')->nullable();
             $table->string('description')->nullable();
-            $table->boolean('status');
-            $table->integer('payment_delay');
+            $table->integer('status_id')->unsigned();
+            $table->dateTime('payment_date')->nullable();
             $table->integer('supplier_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('status_id')->references('id')->on('statuses');
         });
     }
 

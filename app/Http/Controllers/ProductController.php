@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
+use App\ExpenseProduct;
 
 class ProductController extends Controller
 {
@@ -17,22 +19,33 @@ class ProductController extends Controller
     {
         // $products = Product::all();
         //sadece kullanıcısı olduğun firmadaki kullanıcıların eklediği ürünler
-        $products = DB::select('select * from products where user_id in (
-            select id from users where company_id = (
-                select id from companies where id = (
-                    select company_id from users where id = ?))) order by id', 
+        $products = DB::select(
+            'select * from products where user_id in (
+                select id from users where company_id = (
+                    select company_id from users where id = ? )) order by id;', 
                         array(auth()->user()->id));
         return view('product.index', compact('products'));
     }
 
     public function store()
     {
-        $this->validate(request(),[
-            'title' => 'required',
-            'sell' => 'required',
-            'buy' => 'required',
-            'tax' => 'required'
-        ]);
+        $this->validate(
+            request(),
+            [
+                'title' => 'required',
+                'sell' => 'required|numeric',
+                'buy' => 'required|numeric',
+                'tax' => 'required|numeric'
+            ],
+            [
+                'sell.numeric' => 'The "Sell Price" must be a number.',
+                'buy.numeric' => 'The "Buy Price" must be a number.',
+                'sell.required' => 'The "Sell Price" field is required.',
+                'buy.required' => 'The "Buy Price" field is required.',
+                'title.required' => 'The Buy "Title" field is required.',
+                'tax.numeric' => 'The "Tax" must be a number.',
+                'tax.required' => 'The "Tax" field is required.',
+            ]);
 
         Product::create([
             'title' => request('title'),
@@ -49,5 +62,20 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect('/products');
+    }
+
+    public function getExpenseProducts()
+    {
+        $productDetail = Product::find(request('id'));
+        return $productDetail;
+    }
+    
+    public function deleteExpenseProduct()
+    {
+        if(ExpenseProduct::find(request('id'))->delete())
+        {
+            return 1;
+        }
+        return 0;
     }
 }
