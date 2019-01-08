@@ -37,10 +37,11 @@ class SupplierController extends Controller
         return redirect('/suppliers');
     }
 
-    public function delete(Supplier $supplier)
+    public function delete()
     {
-        $supplier->delete();
-        return redirect('/suppliers');
+        if(Supplier::find(request('id'))->delete())
+        return 1;
+        return 0;
     }
 
 }

@@ -5,9 +5,29 @@
 @endsection
 
 @section('head')
-    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.js"></script>
-    <script src="validation.js"></script> --}}
+    <script>
+    function deleteSupplier(supplierId) {
+        $.ajax({
+        data: {id:supplierId},
+        url: '/deleteSupplier',
+        type: 'post',
+        beforeSend: function (request) {
+            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+        },
+        success: function(response){
+            if (response == 1) {
+                removeRow(supplierId);
+            }
+        }
+    }); 
+    }
+    
+    function removeRow(supplierId) {
+        $('#supplierRow_' + supplierId).remove();
+    }
+    </script>
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -26,6 +46,8 @@
                 <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row">
                         <div class="col-md-12">
+                            <form action="/suppliers" method="post" id="addSupplierForm">
+                            @csrf
                             <table width="100%" class="table table-striped table-bordered table-hover ">
                                 <thead>
                                     <tr role="row">
@@ -36,53 +58,53 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($suppliers as $supplier)
-                                        <form action="/suppliers/{{ $supplier->id }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <tr>
-                                                <td>{{ $supplier->name }}</td>
-                                                <td>{{ $supplier->email }}</td>
-                                                <td>{{ $supplier->telephone }}</td>
-                                                <td>{{ $supplier->address }}</td>
-                                                <td>
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </td>
-                                            </tr>
-                                        </form>
-                                        @endforeach
-                                        <form action="/suppliers" method="post" id="addSupplierForm">
-                                            @csrf
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="name" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="email" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="telephone" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="address" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <button type="submit" class="btn btn-success">Add</button>
-                                                </td>
-                                            </tr>
-                                        </form>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-12">
-                            @include('partials.errors')
-                            </div>
+                                    @for ($i = 0; $i < count($suppliers); $i++)
+                                    <tr id="supplierRow_{{ $suppliers[$i]->id }}">
+                                        <td>{{ $suppliers[$i]->name }}</td>
+                                        <td>{{ $suppliers[$i]->email }}</td>
+                                        <td>{{ $suppliers[$i]->telephone }}</td>
+                                        <td>{{ $suppliers[$i]->address }}</td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="deleteSupplier({{ $suppliers[$i]->id }}); return false;">Delete</button>
+                                        </td>
+                                    </tr>
+                                    @endfor
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="name" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="email" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="telephone" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="address" class="form-control">
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success">Add</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                        @include('partials.errors')
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
-    
+
+@endsection
+
+
+@section('script-bottom')
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
+<script src="../js/validation.js"></script>
 @endsection

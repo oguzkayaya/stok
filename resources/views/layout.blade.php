@@ -26,10 +26,9 @@
 
     <!-- Custom Fonts -->
     <link href="/theme/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -74,10 +73,12 @@
     <!-- Morris Charts JavaScript -->
     <script src="/theme/vendor/raphael/raphael.min.js"></script>
     <script src="/theme/vendor/morrisjs/morris.min.js"></script>
-    <script src="/theme/data/morris-data.js"></script>
+    {{-- <script src="/theme/data/morris-data.js"></script> --}}
 
     <!-- Custom Theme JavaScript -->
     <script src="/theme/dist/js/sb-admin-2.js"></script>
+
+    @yield('script-bottom')
 
 </body>
 

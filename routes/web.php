@@ -35,7 +35,8 @@ Route::delete('/products/{product}', 'ProductController@delete');
 
 Route::get('/suppliers', 'SupplierController@index');
 Route::post('/suppliers', 'SupplierController@store');
-Route::delete('/suppliers/{supplier}', 'SupplierController@delete');
+// Route::delete('/suppliers/{supplier}', 'SupplierController@delete');
+Route::post('/deleteSupplier', 'SupplierController@delete');
 
 Route::get('/expenses', 'ExpenseController@index');
 Route::get('/expenses/create', 'ExpenseController@create');
@@ -45,4 +46,4 @@ Route::post('/expenses/{expense}', 'ExpenseController@update');
 
 
 Route::post('/getExpenseProducts', 'ProductController@getExpenseProducts');
-Route::post('deleteExpenseProducts/', 'ProductController@deleteExpenseProduct');
+Route::post('/deleteExpenseProducts/', 'ProductController@deleteExpenseProduct');
