@@ -20,6 +20,7 @@
             @endfor
             var rowCount = {{ count($expense->expense_product) }};
 
+            calcTotalSum();
 
             $("#add").click(function(){
                 rowCount++;
@@ -44,7 +45,7 @@
                 '</td>' +
                 '<td>' +
                     '<div class="col-md-8">' +
-                        '<input type="textbox" class="form-control" id="sum_' + rowCount +'">' +
+                        '<input type="textbox" readonly class="form-control" name="sum" value="0" id="sum_' + rowCount +'">' +
                     '</div>' +
                     '<div class="col-md-4">' +
                         '<button onclick="removeRow(' + rowCount + '); return false;" class="btn btn-danger">Delete</button>' +
@@ -55,9 +56,17 @@
             });
         });
 
+        function calcTotalSum() {
+            var totalSum = 0;
+            $('#ProductTable :input[name=sum]').each(function(){
+                totalSum = totalSum + parseFloat($(this).val());
+            });
+            $('#totalSum').text(totalSum.toFixed(2));
+        }
 
         function removeRow(row) {
             $('#productRow_' + row).remove();
+            calcTotalSum();
         }
 
         function deleteProduct(index, product_id) {
@@ -94,9 +103,11 @@
                 price.val(response['sell_price']);
                 tax.val(response['tax']);
                 var sumValue = price.val() * amount.val() * tax.val() / 100 + price.val() * amount.val();
-                sum.val(sumValue); 
+                sum.val(sumValue.toFixed(2)); 
+                calcTotalSum();
             }
-        });   
+        });  
+        
       }
     
       function calcSum(row) {
@@ -105,7 +116,9 @@
             var tax = $('#tax_' + row);
             var sum = $('#sum_' + row);
             var sumValue = price.val() * amount.val() * tax.val() / 100 + price.val() * amount.val();
-            sum.val(sumValue); 
+            sum.val(sumValue.toFixed(2)); 
+            calcTotalSum();
+
       }
     
     </script>
@@ -188,7 +201,7 @@
                     <tbody>
                         <?php $index = 1; ?>
                         @foreach ($expense->expense_product as $expense_product)
-                            <tr onchange="calcSum({{ $index }})" id="productRow_{{ $index }}">
+                            <tr onchange="calcSum({{ $index }});" id="productRow_{{ $index }}">
                                 <td>
                                     <select name="title[]" class="form-control" id="product_{{ $index }}" onchange="fillBlank({{ $index }})">
                                         <option disabled selected hidden value="">Select Product...</option>
@@ -208,7 +221,7 @@
                                 </td>
                                 <td>
                                     <div class="col-md-8">
-                                        <input type='textbox' class="form-control" autocomplete="off" id="sum_{{ $index }}">
+                                        <input type='textbox' readonly class="form-control" name="sum" autocomplete="off" id="sum_{{ $index }}" value="1">
                                     </div>
                                     <div class="col-md-4">
                                         <button onclick="deleteProduct({{ $index }}, {{ $expense_product->id }}); return false" class="btn btn-danger">Delete</button>
@@ -219,23 +232,28 @@
                         @endforeach
                     </tbody>
                 </table>
-                
-                
+                <hr>
 
-                <input type='button' value='Add Product' class="btn" id='add'>
-                
 
-                <div class="form-group row">
-                        <div class="col-md-3">
-                        </div>
-                        <div class="col-md-5">
-                             <button type="submit" class="btn btn-success">Save</button>
-                        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type='button' value='Add Product' class="btn" id='add'>
+                    </div>
+                    <div class="col-md-5">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                    <div class="col-md-2">
+                        <label id="totalSum"></label>
+                    </div>
                 </div>
-                
-                 </form>
-
-                 @include('partials.errors')
+                <br>
+                <div class="row">
+                    @include('partials.errors')
+                </div>
+                <br><br><br>
+            </form>
+            
+                 
         </div>
     </div>
 

@@ -39,9 +39,15 @@ class SupplierController extends Controller
 
     public function delete()
     {
-        if(Supplier::find(request('id'))->delete())
-        return 1;
-        return 0;
+            try {
+                Supplier::find(request('id'))->delete();
+                return 1;
+            } catch (\Illuminate\Database\QueryException $exception) {
+                // You can check get the details of the error using `errorInfo`:
+                $errorInfo = $exception->errorInfo;
+                return $errorInfo;
+                // Return the response to the client..
+            }
     }
 
 }

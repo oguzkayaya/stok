@@ -15,11 +15,12 @@
             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
         },
         success: function(response){
-            if (response == 1) {
+            if (response == 1)
                 removeRow(supplierId);
-            }
+            else
+                alert(response);
         }
-    }); 
+        }); 
     }
     
     function removeRow(supplierId) {
@@ -108,3 +109,5 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 <script src="../js/validation.js"></script>
 @endsection
+
+
