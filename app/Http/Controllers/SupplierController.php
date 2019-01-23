@@ -25,7 +25,7 @@ class SupplierController extends Controller
     public function store()
     {
         $this->validate(request(),['name' => 'required']);
-
+      
         Supplier::create([
             'name' => request('name'),
             'email' => request('email'),

@@ -28,9 +28,12 @@ class Product extends Model
     public static function InCompanyAll()
     {
         return DB::select(
-            'select * from products where user_id in (
-                select id from users where company_id = (
-                    select company_id from users where id = ?)) order by id;',
+            'select *,
+            ((select sum(amount) from expense_products where product_id = products.id) - 
+            (select sum(amount) from income_products where product_id = products.id)) as "remained"
+            from products where user_id in (
+              select id from users where company_id = (
+                select company_id from users where id = ?)) order by id;',
             [auth()->user()->id]
         );
     }

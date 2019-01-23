@@ -47,3 +47,19 @@ Route::post('/expenses/{expense}', 'ExpenseController@update');
 
 Route::post('/getExpenseProducts', 'ProductController@getExpenseProducts');
 Route::post('/deleteExpenseProducts/', 'ProductController@deleteExpenseProduct');
+
+
+Route::get('/customers', 'CustomerController@index');
+Route::get('/getCustomers', 'CustomerController@getCustomers');
+Route::delete('/customers/{id}', 'CustomerController@delete');
+Route::post('/customers', 'CustomerController@store');
+
+Route::get('/incomes', 'IncomeController@index');
+Route::get('/incomes/{any}', 'IncomeController@index')->where('any', '.*');
+Route::get('/getIncomes', 'IncomeController@getIncomes');
+Route::post('/incomes', 'IncomeController@store');
+Route::delete('/incomes/{id}', 'IncomeController@delete');
+Route::get('/getIncome', 'IncomeController@getIncome');
+Route::post('/updateIncomes', 'IncomeController@update');
+
+Route::get('/getProducts', 'ProductController@getProducts');

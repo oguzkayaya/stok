@@ -78,4 +78,10 @@ class ProductController extends Controller
         }
         return 0;
     }
+
+    public function getProducts()
+    {
+      $products = \App\Product::InCompanyAll();
+      return response()->json(['products' => $products]);
+    }
 }

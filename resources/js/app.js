@@ -7,7 +7,12 @@
 
 require('./bootstrap');
 
+import VueRouter from 'vue-router';
+import Vuelidate from 'vuelidate';
 window.Vue = require('vue');
+
+Vue.use(VueRouter);
+Vue.use(Vuelidate);
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,6 +26,12 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+const customerTable = Vue.component('customer-table' , require('./components/customer-table.vue').default);
+// Vue.component('income-table', require('./components/income-table.vue').default);
+
+const createIncome = Vue.component('create-income', require('./components/create-income.vue').default);
+const incomeTable = Vue.component('income-table', require('./components/income-table.vue').default);
+const editIncome = Vue.component('edit-income', require('./components/edit-income.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,6 +39,18 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app'
-});
+const routes = [
+  { path: '/incomes/new', component: createIncome },
+  { path: '/incomes', component: incomeTable },
+  { path: '/incomes/:income_id/edit', component: editIncome }
+]
+const router = new VueRouter({
+  mode: 'history',
+  routes // short for `routes: routes`
+})
+
+var app = new Vue({
+    el: '#app',
+    router
+  })
+

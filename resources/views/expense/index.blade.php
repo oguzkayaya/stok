@@ -11,8 +11,8 @@
                 <div class="col-md-10">Expenses</div>
                 <a href="/expenses/create" class="btn btn-success">New Expense</a>
             </h1>
-        </div>
-
+        </div>  
+        
     <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
