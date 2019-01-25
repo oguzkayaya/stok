@@ -7,20 +7,7 @@
             </h1>
         </div>
     </div>
-    <div>
-      <div>
-        <hr>
-        {{ productDatas }}
-      <span>{{ !!$v.items.$each[0].subs }}</span>
-      <div style="color:red;">{{ $v.productDatas.$each }}</div>
-        <hr>
-    <input v-model.trim="$v.user.name.$model"/>
-  <div v-if="!$v.user.name.required">Field is required</div>
-  <div v-if="!$v.user.name.minLength">Name must have at least {{$v.user.name.$params.minLength.min}} letters.</div>
-    <input v-model.trim.lazy="$v.user.age.$model"/>
-  <div v-if="!$v.user.age.between">Must be between {{$v.user.age.$params.between.min}} and {{$v.user.age.$params.between.max}}</div><span tabindex="0">Blur to see changes</span>
-</div>
-      </div>
+
     <div class="row">
       <div class="form-group row">
         <div class="col-md-3">
@@ -109,7 +96,12 @@
               </select>
             </td>
             <td>
-              <input type='number' class="form-control" v-model="productData.amount">
+              <input 
+                type='textbox' 
+                class="form-control" 
+                v-model.trim="productData.amount" 
+                :class="{ notValid : validateAmount(productData.amount, productData.remained) }"
+              >
             </td>
             <td>
               <input type='textbox' class="form-control" v-model="productData.price">
@@ -139,11 +131,11 @@
 
 <script>
   import productTr from "./product-tr.vue"
-  import { required, minLength, between } from 'vuelidate/lib/validators'
   class ProductData {
     constructor() {
       this.id = '';
       this.amount = '';
+      this.remained = '';
       this.price = '';
       this.tax = '';
       this.sum = 0;
@@ -153,14 +145,6 @@
 export default {
   data: function() {
     return {
-      user: {
-        name: '',
-        age: 0,
-      },
-      items: [
-        {subs: 1},
-        {subs: 2}
-      ],
       customers: '',
       products: {},
       productIndex: [],
@@ -172,32 +156,6 @@ export default {
         'status': 'paid',
         'payment_date': this.dateFormat(new Date()),
       }
-    }
-  },
-    validations: {
-    productDatas: {
-      $each: {
-        amount: {
-          required,
-          between: between(10, 20),
-        }
-      }
-    },
-    items: {
-    	$each: {
-      	subs: {
-        	between: between(10, 30)
-				}
-      }
-    },
-    user: {
-      name: {
-      required,
-      minLength: minLength(4)
-    },
-    age: {
-      between: between(20, 30)
-    }
     }
   },
   created: function() {
@@ -224,12 +182,22 @@ export default {
       })
     },
     createIncome: function() {
-      // console.log('!!!');
-      axios
-      .post('/incomes', { 'incomeData': this.incomeData, 'productData': this.productDatas })
-      .then((response) => {
-        this.$router.push({ path: '/incomes' })
-      })
+      let valid = true;
+      this.productDatas.forEach((productData, index) => {
+        if(this.validateAmount(productData.amount, productData.remained)) {
+          valid = false;
+        }
+      });
+      if(valid) {
+        axios
+        .post('/incomes', { 'incomeData': this.incomeData, 'productData': this.productDatas })
+        .then((response) => {
+          this.$router.push({ path: '/incomes' })
+        })
+      }
+      else {
+        alert('Eklenemiyor.');
+      }
     },
     dateFormat: function(d) {
       const dformat = [d.getFullYear(),
@@ -245,6 +213,7 @@ export default {
       // console.log(index);
       this.productDatas[index].id = this.products[this.productIndex[index]].id;
       this.productDatas[index].amount = 1;
+      this.productDatas[index].remained = this.products[this.productIndex[index]].remained;
       this.productDatas[index].price = this.products[this.productIndex[index]].sell_price;
       this.productDatas[index].tax = this.products[this.productIndex[index]].tax;
       this.calcSum(index);
@@ -259,6 +228,11 @@ export default {
     },
     removeProduct: function(index) {
       this.productDatas.splice(index, 1);
+    },
+    validateAmount: function(amount, remained) {
+      if(parseInt(amount) > parseInt(remained) || isNaN(amount))
+        return true; 
+        return false;
     }
   },
   computed: {
@@ -277,5 +251,12 @@ export default {
 .lbl{
    margin:5px 50px 0 0; float:right;
     font-size: 20px;
+}
+.notValid{
+  border-color: red;
+  background: #FDD;
+}
+.notValid:focus {
+  outline-color: #F99;
 }
 </style>

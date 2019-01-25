@@ -63,3 +63,7 @@ Route::get('/getIncome', 'IncomeController@getIncome');
 Route::post('/updateIncomes', 'IncomeController@update');
 
 Route::get('/getProducts', 'ProductController@getProducts');
+
+
+Route::get('/status', 'StatusController@index');
+Route::get('/getStatus', 'StatusController@getStatus');

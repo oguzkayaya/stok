@@ -99,7 +99,7 @@
                 </select>
               </td>
               <td>
-                <input type='textbox' class="form-control" v-model="productData.amount">    
+                <input type='textbox' class="form-control" v-model="productData.amount"> 
               </td>
               <td>
                 <input type='textbox' class="form-control" v-model="productData.price">

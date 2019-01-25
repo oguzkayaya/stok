@@ -9,10 +9,12 @@ require('./bootstrap');
 
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
+import Vuex from 'vuex';
 window.Vue = require('vue');
 
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
+Vue.use(Vuex);
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,7 +29,8 @@ Vue.use(Vuelidate);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 const customerTable = Vue.component('customer-table' , require('./components/customer-table.vue').default);
-// Vue.component('income-table', require('./components/income-table.vue').default);
+
+const status = Vue.component('status', require('./components/status.vue').default);
 
 const createIncome = Vue.component('create-income', require('./components/create-income.vue').default);
 const incomeTable = Vue.component('income-table', require('./components/income-table.vue').default);
