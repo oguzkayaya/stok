@@ -9,12 +9,10 @@ require('./bootstrap');
 
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
-import Vuex from 'vuex';
 window.Vue = require('vue');
 
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
-Vue.use(Vuex);
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,7 +25,7 @@ Vue.use(Vuex);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+const exampleComponent = Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 const customerTable = Vue.component('customer-table' , require('./components/customer-table.vue').default);
 
 const status = Vue.component('status', require('./components/status.vue').default);
@@ -35,6 +33,8 @@ const status = Vue.component('status', require('./components/status.vue').defaul
 const createIncome = Vue.component('create-income', require('./components/create-income.vue').default);
 const incomeTable = Vue.component('income-table', require('./components/income-table.vue').default);
 const editIncome = Vue.component('edit-income', require('./components/edit-income.vue').default);
+
+import store from './store'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -45,7 +45,8 @@ const editIncome = Vue.component('edit-income', require('./components/edit-incom
 const routes = [
   { path: '/incomes/new', component: createIncome },
   { path: '/incomes', component: incomeTable },
-  { path: '/incomes/:income_id/edit', component: editIncome }
+  { path: '/incomes/:income_id/edit', component: editIncome },
+  { path: '/incomes/example', component: exampleComponent }
 ]
 const router = new VueRouter({
   mode: 'history',
@@ -54,6 +55,7 @@ const router = new VueRouter({
 
 var app = new Vue({
     el: '#app',
-    router
+    router,
+    store,
   })
 
