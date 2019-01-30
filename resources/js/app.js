@@ -46,7 +46,7 @@ const routes = [
   { path: '/incomes/new', component: createIncome },
   { path: '/incomes', component: incomeTable },
   { path: '/incomes/:income_id/edit', component: editIncome },
-  { path: '/incomes/example', component: exampleComponent }
+  { path: '/incomes/example', component: exampleComponent },
 ]
 const router = new VueRouter({
   mode: 'history',

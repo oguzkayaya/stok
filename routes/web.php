@@ -67,3 +67,14 @@ Route::get('/getProducts', 'ProductController@getProducts');
 
 Route::get('/status', 'StatusController@index');
 Route::get('/getStatus', 'StatusController@getStatus');
+
+Route::get('/personnels', 'PersonnelController@index');
+Route::get('/getPersonnels', 'PersonnelController@getPersonnels');
+Route::delete('/personnels/{id}', 'PersonnelController@delete');
+Route::post('/personnels', 'PersonnelController@store');
+Route::get('/personnel/{any}', 'PersonnelController@index')->where('any', '.*');
+Route::get('/getPayments', 'PersonnelController@getPayments');
+Route::delete('/payments/{id}', 'PersonnelController@deletePayment');
+Route::post('/payments', 'PersonnelController@paymentStore');
+
+
